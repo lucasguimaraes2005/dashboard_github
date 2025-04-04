@@ -23,7 +23,7 @@ export function LoginButton() {
       className="gap-2"
     >
       <Github className="w-5 h-5" />
-      Sign in with GitHub
+      Faça login com GitHub
     </Button>
   );
 }

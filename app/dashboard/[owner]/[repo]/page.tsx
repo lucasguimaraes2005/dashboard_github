@@ -69,7 +69,7 @@ export default function RepositoryAnalysis() {
       </div>
 
       <h1 className="text-4xl font-bold mb-8">
-        Analysis: {params.owner}/{params.repo}
+        Análise: {params.owner}/{params.repo}
       </h1>
 
       <div className="grid gap-6">
