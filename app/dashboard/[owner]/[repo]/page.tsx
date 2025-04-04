@@ -39,8 +39,10 @@ export default function RepositoryAnalysis() {
   });
 
   const handleReanalyze = () => {
-    queryClient.invalidateQueries(["analysis", params.owner, params.repo]);
-  };
+    queryClient.invalidateQueries({
+      queryKey: ["analysis", params.owner, params.repo],
+    });
+      };
 
   if (isLoading) {
     return (
