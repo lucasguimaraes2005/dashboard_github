@@ -52,7 +52,7 @@ export default function RepositoryAnalysis() {
         onClick={() => router.back()}
         className="mb-8"
       >
-        <ArrowLeft className="mr-2 h-4 w-4" /> Back to repositories
+        <ArrowLeft className="mr-2 h-4 w-4" /> Voltar para os repositórios
       </Button>
 
       <h1 className="text-4xl font-bold mb-8">
@@ -61,14 +61,14 @@ export default function RepositoryAnalysis() {
 
       <div className="grid gap-6">
         <Card className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">AI Summary</h2>
+          <h2 className="text-2xl font-semibold mb-4">Sumário da IA</h2>
           <p className="text-muted-foreground whitespace-pre-wrap">
             {analysis?.summary}
           </p>
         </Card>
 
         <Card className="p-6">
-          <h2 className="text-2xl font-semibold mb-4">Recent Commits</h2>
+          <h2 className="text-2xl font-semibold mb-4">Commits recentes</h2>
           <div className="space-y-4">
             {analysis?.commits?.slice(0, 5).map((commit: any) => (
               <div key={commit.sha} className="border-b pb-4">

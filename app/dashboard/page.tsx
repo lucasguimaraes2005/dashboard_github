@@ -30,7 +30,7 @@ export default function Dashboard() {
 
   if (isLoading) {
     return (
-      <div className="flex h-screen items-center justify-center">
+      <div className="flex h-[calc(100vh-4rem)] items-center justify-center">
         <Loader2 className="h-8 w-8 animate-spin" />
       </div>
     );
@@ -38,7 +38,7 @@ export default function Dashboard() {
 
   return (
     <div className="container mx-auto py-10">
-      <h1 className="text-4xl font-bold mb-8">Your Repositories</h1>
+      <h1 className="text-4xl font-bold mb-8">Seus repositórios</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {repositories?.map((repo: any) => (
           <Card key={repo.id} className="p-6">
@@ -50,7 +50,7 @@ export default function Dashboard() {
               onClick={() => router.push(`/dashboard/${repo.full_name}`)}
               className="w-full"
             >
-              Analyze with AI
+              Analisar com IA
             </Button>
           </Card>
         ))}

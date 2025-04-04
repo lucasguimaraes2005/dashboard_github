@@ -1,6 +1,6 @@
 import { OpenAI } from "openai";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../auth/[...nextauth]/route"; // ajuste o caminho conforme necessário
+import { authOptions } from "../auth/[...nextauth]/route"; 
 import { NextResponse } from "next/server";
 
 const openai = new OpenAI({
@@ -8,7 +8,7 @@ const openai = new OpenAI({
 });
 
 export async function POST(request: Request) {
-  const session = await getServerSession(authOptions); // <- aqui!
+  const session = await getServerSession(authOptions); 
 
   console.log("Session in analysis:", session);
 
@@ -33,15 +33,15 @@ export async function POST(request: Request) {
   ]);
 
   const analysis = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
+    model: "gpt-4o-mini",
     messages: [
       {
         role: "system",
-        content: "You are a helpful AI assistant that analyzes GitHub repositories and provides insights.",
+        content: "Você é um assistente de IA útil que analisa repositórios do GitHub e fornece insights.",
       },
       {
         role: "user",
-        content: `Please analyze this repository:\n\nREADME:\n${readme}\n\nRecent commits:\n${JSON.stringify(
+        content: `Por favor, analise este repositório e forneça insigths e melhorias sobre ele:\n\nREADME:\n${readme}\n\nCommits recentes:\n${JSON.stringify(
           commits.slice(0, 5)
         )}`,
       },

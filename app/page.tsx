@@ -10,8 +10,8 @@ export default function Home() {
           GitHub AI Dashboard
         </h1>
         <p className="text-lg text-muted-foreground max-w-[600px]">
-          Connect your GitHub account to analyze your repositories with AI and get
-          intelligent insights about your projects.
+        Conecte sua conta do GitHub para analisar seus repositórios com IA e obter
+        insights inteligentes sobre seus projetos.
         </p>
         <LoginButton />
       </div>
