@@ -14,6 +14,18 @@ export default function RepositoryAnalysis() {
   const { status } = useSession();
   const queryClient = useQueryClient();
 
+  interface Commit {
+    sha: string;
+    commit: {
+      message: string;
+      author: {
+        name: string;
+        date: string;
+      };
+    };
+  }
+  
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/");
@@ -85,7 +97,7 @@ export default function RepositoryAnalysis() {
         <Card className="p-6">
           <h2 className="text-2xl font-semibold mb-4">Commits recentes</h2>
           <div className="space-y-4">
-            {analysis?.commits?.slice(0, 5).map((commit) => (
+            {analysis?.commits?.slice(0, 5).map((commit: Commit) => (
               <div key={commit.sha} className="border-b pb-4">
                 <p className="font-medium">{commit.commit.message}</p>
                 <p className="text-sm text-muted-foreground">

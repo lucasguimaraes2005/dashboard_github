@@ -6,9 +6,20 @@ import { Button } from "@/components/ui/button";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { Loader2, Search, Code, GitBranch, Star, Eye } from "lucide-react";
+import { Loader2, Search, Code, GitBranch, Star } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+
+interface Repository {
+  id: number;
+  name: string;
+  full_name: string;
+  description: string;
+  private: boolean;
+  language?: string;
+  stargazers_count: number;
+  forks_count: number;
+}
 
 export default function Dashboard() {
   const { data: session, status } = useSession();
@@ -21,7 +32,7 @@ export default function Dashboard() {
     }
   }, [status, router]);
 
-  const { data: repositories, isLoading } = useQuery({
+  const { data: repositories, isLoading } = useQuery<Repository[]>({
     queryKey: ["repositories"],
     queryFn: async () => {
       const response = await fetch("/api/github/repositories");
@@ -31,7 +42,7 @@ export default function Dashboard() {
     enabled: !!session,
   });
 
-  const filteredRepos = repositories?.filter((repo) => 
+  const filteredRepos = repositories?.filter((repo: Repository) => 
     repo.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
     (repo.description && repo.description.toLowerCase().includes(searchTerm.toLowerCase()))
   );
@@ -70,7 +81,7 @@ export default function Dashboard() {
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredRepos?.map((repo) => (
+          {filteredRepos?.map((repo: Repository) => (
             <Card key={repo.id} className="overflow-hidden border hover:shadow-md transition-shadow">
               <CardHeader className="pb-2">
                 <div className="flex justify-between items-start">
@@ -126,8 +137,7 @@ export default function Dashboard() {
   );
 }
 
-// Função para determinar a cor de cada linguagem (cores aproximadas comuns no GitHub)
-function getLanguageColor(language) {
+function getLanguageColor(language: string): string {
   const colors = {
     JavaScript: "#f1e05a",
     TypeScript: "#3178c6",
@@ -146,6 +156,6 @@ function getLanguageColor(language) {
     Rust: "#dea584",
     Dart: "#00B4AB",
   };
-  
-  return colors[language] || "#8257e5"; // Cor padrão para outras linguagens
+
+  return colors[language as keyof typeof colors] || "#8257e5";
 }
