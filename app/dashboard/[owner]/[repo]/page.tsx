@@ -1,17 +1,18 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { useParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useEffect } from "react";
-import { Loader2, ArrowLeft } from "lucide-react";
+import { Loader2, ArrowLeft, RefreshCw } from "lucide-react";
 
 export default function RepositoryAnalysis() {
   const params = useParams();
   const router = useRouter();
   const { status } = useSession();
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -37,6 +38,10 @@ export default function RepositoryAnalysis() {
     },
   });
 
+  const handleReanalyze = () => {
+    queryClient.invalidateQueries(["analysis", params.owner, params.repo]);
+  };
+
   if (isLoading) {
     return (
       <div className="flex h-screen items-center justify-center">
@@ -47,13 +52,21 @@ export default function RepositoryAnalysis() {
 
   return (
     <div className="container mx-auto py-10">
-      <Button
-        variant="ghost"
-        onClick={() => router.back()}
-        className="mb-8"
-      >
-        <ArrowLeft className="mr-2 h-4 w-4" /> Voltar para os repositórios
-      </Button>
+      <div className="flex justify-between items-center mb-8">
+        <Button
+          variant="ghost"
+          onClick={() => router.back()}
+        >
+          <ArrowLeft className="mr-2 h-4 w-4" /> Voltar para os repositórios
+        </Button>
+        
+        <Button 
+          onClick={handleReanalyze}
+          variant="outline"
+        >
+          <RefreshCw className="mr-2 h-4 w-4" /> Refazer análise
+        </Button>
+      </div>
 
       <h1 className="text-4xl font-bold mb-8">
         Analysis: {params.owner}/{params.repo}
@@ -70,7 +83,7 @@ export default function RepositoryAnalysis() {
         <Card className="p-6">
           <h2 className="text-2xl font-semibold mb-4">Commits recentes</h2>
           <div className="space-y-4">
-            {analysis?.commits?.slice(0, 5).map((commit: any) => (
+            {analysis?.commits?.slice(0, 5).map((commit) => (
               <div key={commit.sha} className="border-b pb-4">
                 <p className="font-medium">{commit.commit.message}</p>
                 <p className="text-sm text-muted-foreground">
